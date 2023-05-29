@@ -1,4 +1,4 @@
-# travel_agency
+# travel_agency frontend
 ## Installation<br>
 
 To install the app, follow these steps:<br>
