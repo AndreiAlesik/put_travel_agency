@@ -4,9 +4,10 @@
 To install the app, follow these steps:<br>
 
 1. Clone the repository.<br>
-2. Run `mvn clean install` to install the required dependencies.<br>
-3. Start the application using `mvn spring-boot:run`.<br>
+2. Run `npm install` to install the required libraries.<br>
+3. Start the application using `npm run serve`.<br>
 
 To use the app, follow these steps:<br>
 
-1. Open the Swagger UI in your web browser: `http://localhost:8080/swagger-ui.html`. Ten link jest wykorzystywany dla sprawdzenia dokumentacji dostępnych endpointów<br>
+1. Open the Swagger UI in your web browser: `http://localhost:3000`.<br>
+2. Na ten moment jest dostępnę użycie paneli klientów i języków.
