@@ -3,7 +3,7 @@
 
 To install the app, follow these steps:<br>
 
-1. Clone the repository.<br>
+1. Clone the repository by using Visual Studio code.<br>
 2. Run `npm install` to install the required libraries.<br>
 3. Start the application using `npm run serve`.<br>
 
