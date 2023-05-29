@@ -40,7 +40,7 @@ const EtapView = () => {
             title: 'Data koncowa',
             key: 'data_koncowa',
             render: (text: any, record: any) => <>{record.data_koncowa.split(' ')[0]}</>,
-            sorter: (a: any, b: any) => stringToDate(a.data_koncowa.split(' ')[0], "yyyy-mm-dd", '-').getTime() - stringToDate(b.data_koncowa.split(' ')[0], "yyyy-mm-dd", '-').getTime(),
+            sorter: (a: any, b: any) => stringToDate(a.data_rozpoczecia.split(' ')[0], "yyyy-mm-dd", '-').getTime() - stringToDate(b.data_rozpoczecia.split(' ')[0], "yyyy-mm-dd", '-').getTime(),
         },
 
         {

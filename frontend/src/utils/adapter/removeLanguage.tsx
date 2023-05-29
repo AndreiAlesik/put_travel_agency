@@ -1,30 +1,28 @@
 import { message } from "antd";
 import config from "../../config.json";
 
-const removeLanguage = (id: any) => {
+const removeLanguage = (languageId: number) => {
     const requestOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({ params: { kod: id } })
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
     };
-
-    fetch(config.SERVER_URL + "/api/delete/language", requestOptions)
-        .then((response) => response.json())
-        .then((response) => {
-            if (response.status == 200) {
-                message.success("Pracownik został usunięty")
-                
-                window.open('/jezyki', '_self');
-                
-            } else {
-                message.success("Wystąpił błąd podczas usuwania języka, odśwież strone i spróbuj ponownie")
-            }
-
-        })
-        .catch((error) => console.log('Błąd połączenia z serwerem'));
-};
+  
+    fetch(`${config.SERVER_URL}/api/delete/language?id=${languageId}`, requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          // Language successfully deleted
+          // Perform any necessary cleanup or UI updates
+          message.success("Język został usunięty");
+          window.location.reload(); // Refresh the page
+        } else {
+          // Error deleting the language
+          message.error("Wystąpił błąd podczas usuwania języka");
+        }
+      })
+      .catch((error) => message.error('Błąd połączenia z serwerem'));
+  };
 
 export default removeLanguage;

@@ -144,7 +144,10 @@ const AddEtap = () => {
                     message.error("Wystąpił błąd podczas pobierania podróży, spróbuj ponownie")
                 }
 
+            }).then(() => {
+
             })
+            .catch((error) => message.error('Błąd połączenia z serwerem'));
     }
 
     useEffect(() => {
@@ -215,11 +218,11 @@ const AddEtap = () => {
             </Form.Item>
             <Form.Item
                 name="punkt_konczowy"
-                label="Punkt koncowy"
+                label="Punkt konczowy"
                 rules={[
                     {
                         required: true,
-                        message: 'Pole punkt koncowy nie może być puste!',
+                        message: 'Pole punkt konczowy nie może być puste!',
                     },
                 ]}
             >

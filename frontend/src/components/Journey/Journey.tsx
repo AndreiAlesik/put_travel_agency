@@ -58,6 +58,16 @@ const JourneysView = () => {
 
         },
         {
+            title: 'Opis',
+            key: 'opis',
+            sorter: (a: any, b: any) => a.nazwa.localeCompare(b.opis),
+            render: (text: any, record: any) => <>{record.opis.length > 0 ? 
+                record.opis
+                :
+                <>Brak opisu</>
+            }</>,
+        },
+        {
             title: 'Termin',
             key: 'data_rozpoczecia',
             sorter: (a: any, b: any) => stringToDate(a.data_rozpoczecia.split(' ')[0], "yyyy-mm-dd", '-').getTime() - stringToDate(b.data_rozpoczecia.split(' ')[0], "yyyy-mm-dd", '-').getTime(),
@@ -85,7 +95,7 @@ const JourneysView = () => {
                             />
                         </Panel>
                     </Collapse > :
-                    <>Brak przypisanych</>
+                    <>Brak przypisanych pracowników</>
                 }</>
         },
 
@@ -112,7 +122,7 @@ const JourneysView = () => {
                             />
                         </Panel>
                     </Collapse > :
-                    <>Brak przypisanych</>
+                    <>Brak przypisanych atrakcji</>
                 }</>
         },
         {
@@ -164,7 +174,7 @@ const JourneysView = () => {
                             />
                         </Panel>
                     </Collapse > :
-                    <>Brak przypisanych</>
+                    <>Brak przypisanych przewodników</>
                 }</>
         },
         {

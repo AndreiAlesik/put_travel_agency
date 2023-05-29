@@ -42,7 +42,7 @@ const AddJourney = () => {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }: { setSelectedKeys: any, selectedKeys: any, confirm: any, clearFilters: any, close: any }) => (
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
-                    placeholder={`Szukaj`}
+                    placeholder={`Search PDB ID`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(confirm)}
@@ -90,7 +90,7 @@ const AddJourney = () => {
             render: (text: any, record: any) => <>{record.numer_telefonu}</>,
         },
         {
-            title: 'Adres',
+            title: 'Addres',
             render: (text: any, record: any) => <a href={"https://www.google.com/maps/search/?api=1&query=" + record.adres.replace(' ', '+')}>{record.adres}</a>,
             key: 'addres',
         },
@@ -167,7 +167,7 @@ const AddJourney = () => {
             sorter: (a: any, b: any) => a.numer_telefonu.localeCompare(b.numer_telefonu),
         },
         {
-            title: 'Adres',
+            title: 'Addres',
             render: (text: any, record: any) => <a href={"https://www.google.com/maps/search/?api=1&query=" + record.adres.replace(' ', '+')}>{record.adres}</a>,
             key: 'adres',
             sorter: (a: any, b: any) => a.adres.localeCompare(b.adres),
@@ -195,7 +195,7 @@ const AddJourney = () => {
             render: (text: any, record: any) => <>{record.punkt_poczatkowy}</>,
         },
         {
-            title: 'Punkt koncowy',
+            title: 'Punkt konczowy',
             key: 'punkt_konczowy',
             render: (text: any, record: any) => <>{record.punkt_konczowy}</>,
         },

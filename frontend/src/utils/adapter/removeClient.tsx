@@ -3,24 +3,22 @@ import config from "../../config.json";
 
 const removeClient = (id: any) => {
     const requestOptions = {
-        method: "POST",
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
         },
-        body: JSON.stringify({ params: { pesel: id } })
     };
 
-    fetch(config.SERVER_URL + "/api/delete/client", requestOptions)
+    fetch(config.SERVER_URL + `/api/delete/client/${id}`, requestOptions)
         .then((response) => response.json())
         .then((response) => {
-            if (response.status == 200) {
-                message.success("Client został usunięty")
-                window.open('/klienty', '_self')
+            if (response.status === "OK") {
+                message.success("Client został usunięty");
+                window.location.reload(); // Refresh the page
             } else {
-                message.success("Wystąpił błąd podczas usuwania przewodnika, odśwież strone i spróbuj ponownie")
+                message.error("Wystąpił błąd podczas usuwania przewodnika, odśwież stronę i spróbuj ponownie.");
             }
-
         })
         .catch((error) => console.log('Błąd połączenia z serwerem'));
 };

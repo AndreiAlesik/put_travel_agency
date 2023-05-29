@@ -10,7 +10,7 @@ import addAttractionToJourney from "../../utils/adapter/addAttractionToJourney";
 import addAttractionToPilot from "../../utils/adapter/addAttractionToPilot";
 import getJourneyData from "../../utils/adapter/getJourneyData";
 import getPilotData from "../../utils/adapter/getPilotData";
-import { onlyUnique } from "../Pilots/UpdatePilot";
+// import { onlyUnique } from "../Pilots/UpdatePilot";
 import TextArea from "antd/es/input/TextArea";
 
 const options = [{ value: 'zima' }, { value: 'lato' }, { value: 'wiosna' }, { value: 'jesień' }];
@@ -72,7 +72,7 @@ const columns_pilot = [
         render: (text: any, record: any) => <>{record.numer_telefonu}</>,
     },
     {
-        title: 'Adres',
+        title: 'Addres',
         render: (text: any, record: any) => <a href={"https://www.google.com/maps/search/?api=1&query=" + record.adres.replace(' ', '+')}>{record.adres}</a>,
         key: 'addres',
         sorter: (a: any, b: any) => a.adres.localeCompare(b.adres),
@@ -100,7 +100,9 @@ const formItemLayout = {
         sm: { span: 16 },
     },
 };
-
+export function onlyUnique(value: any, index: any, self: any) {
+    return self.indexOf(value) === index;
+}
 const UpdateAttraction = () => {
     const { id } = useParams();
     const [form] = Form.useForm();
@@ -110,7 +112,7 @@ const UpdateAttraction = () => {
     const [selectedJounrneyKeys, setSelectedJounrneyKeys] = useState<React.Key[]>([]);
     const [journeyData, setJounrneyData] = useState();
     const onSelectLanguagesChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedJounrneyKeys(newSelectedRowKeys);
+        setSelectedJounrneyKeys(newSelectedRowKeys.filter(onlyUnique));
 
     };
     const rowJourneySelection = {
@@ -122,8 +124,8 @@ const UpdateAttraction = () => {
     const [selectedPilotKeys, setSelectedPilotKeys] = useState<React.Key[]>([]);
     const [pilotData, setPilotData] = useState();
     const onSelectPilotChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedPilotKeys(newSelectedRowKeys);
-
+        setSelectedPilotKeys(newSelectedRowKeys.filter(onlyUnique));
+        
     };
     const rowPilotSelection = {
         selectedRowKeys: selectedPilotKeys,
@@ -157,6 +159,9 @@ const UpdateAttraction = () => {
     }, [data])
     const onFinish = (values: any) => {
         values.id = Number(id)
+        if(!values.opis){
+            values.opis=''
+        }
         const requestOptions = {
             method: "POST",
             headers: {
@@ -178,7 +183,7 @@ const UpdateAttraction = () => {
                         addAttractionToPilot(Number(id), value)
                     })
 
-                    message.success("Aktualizacja atrkacji powiodła się.")
+                    message.success("Aktualizacja atrakcji powiodła się.")
                     setTimeout(function () {
                         window.open('/atrakcje', '_self')
                     }, 2.0 * 1000);
@@ -227,14 +232,6 @@ const UpdateAttraction = () => {
             <Form.Item
                 name="sezon"
                 label="Sezon"
-                rules={
-                    [
-                        {
-                            required: true,
-                            message: 'Sezon nie może być pusty'
-                        }
-                    ]
-                }
             >
                 <Select
                     mode="multiple"
@@ -248,6 +245,7 @@ const UpdateAttraction = () => {
             <Form.Item
                 name="opis"
                 label="Opis"
+               
             >
                 <TextArea
                     showCount

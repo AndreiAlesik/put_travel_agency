@@ -1,170 +1,107 @@
-import { Button, Form, Input, message, Table } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { useEffect, useState } from "react";
-import getAllAttractions from "../../utils/adapter/getAllAttractions";
-import getAllLanguages from "../../utils/adapter/getAllLanguages";
+import { useNavigate } from "react-router-dom";
+import config from '../../config.json';
 
-import config from '../../config.json'
-import addAttractionToPilot from "../../utils/adapter/addAttractionToPilot";
-import addLanguageToPilot from "../../utils/adapter/addLanguageToPilot";
-
-const onFinish = (values: any) => {
-};
-const attraction_columns = [
-    {
-        title: 'Atrakcja',
-        key: 'atrakcja',
-        render: (text: any, record: any) => <>{record.nazwa}</>,
-    },
-    {
-        title: 'Adres',
-        key: 'adres',
-        render: (text: any, record: any) => <>{record.adres}</>,
-    },
-    {
-        title: 'Opis',
-        key: 'opis',
-        render: (text: any, record: any) => <>{record.opis}</>,
-    },
-]
-const languages_columns = [
-    {
-        title: 'Kod języka',
-        key: 'kod',
-        render: (text: any, record: any) => <>{record.kod}</>,
-    },
-    {
-        title: 'Język',
-        key: 'jezyk',
-        render: (text: any, record: any) => <>{record.nazwa}</>,
-    },
-]
-const tailFormItemLayout = {
-    wrapperCol: {
-        xs: {
-            span: 24,
-            offset: 0,
-        },
-        sm: {
-            span: 16,
-            offset: 8,
-        },
-    },
-};
-const formItemLayout = {
-    labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-    },
-    wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-    },
-};
 const AddLang = () => {
-    const [form] = Form.useForm();
-    const [selectedAttractionKeys, setSelectedAttractionKeys] = useState<React.Key[]>([]);
-    const [attractionData, setAttractionData] = useState();
-    const onSelectAttractionChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-        setSelectedAttractionKeys(newSelectedRowKeys);
-    };
-    const rowAttractionSelection = {
-        selectedAttractionKeys,
-        onChange: onSelectAttractionChange,
-    };
-    const [selectedLanguagesKeys, setSelectedLanguagesKeys] = useState<React.Key[]>([]);
-    const [languagesData, setLanguagesData] = useState();
-    const onSelectLanguagesChange = (newSelectedRowKeys: React.Key[]) => {
-        console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-        setSelectedLanguagesKeys(newSelectedRowKeys);
-    };
-    const rowLanguagesSelection = {
-        selectedLanguagesKeys,
-        onChange: onSelectLanguagesChange,
+  const [form] = Form.useForm();
+  const [createSuccess, setCreateSuccess] = useState(false);
+  const navigate = useNavigate();
+
+  const onFinish = (values: any) => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(values),
     };
 
-    useEffect(() => {
-        getAllAttractions(setAttractionData)
-        getAllLanguages(setLanguagesData)
-    }, [])
+    fetch(config.SERVER_URL + "/api/push/language", requestOptions)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === "CREATED") {
+          console.log(response.result);
+          setCreateSuccess(true);
+        } else {
+          message.error(response.message);
+        }
+      })
+      .catch((error) => message.error('Server connection error'));
+  };
 
-    const onFinish = (values: any) => {
-        const requestOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-            },
-            body: JSON.stringify({ params: values })
-        };
+  const handleReset = () => {
+    form.resetFields();
+    setCreateSuccess(false);
+  };
 
-        fetch(config.SERVER_URL + "/api/push/language", requestOptions)
-            .then((response) => response.json())
-            .then((response) => {
-                if (response.status == 200) {
+  useEffect(() => {
+    if (createSuccess) {
+      const timeout = setTimeout(() => {
+        navigate("/jezyki");
+      }, 2000);
 
-                    console.log(response)
-                    message.success("Język został dodany")
-                    setTimeout(function () {
-                        window.open('/jezyki', '_self')
-                    }, 2.0 * 1000);
-                } else {
-                    message.error("Wystąpił błąd podczas dodawania języka, podany kod jest już wykorzystany")
-                }
+      return () => clearTimeout(timeout);
+    }
+  }, [createSuccess, navigate]);
 
-            }).then(() => {
-
-            })
-            .catch((error) => message.error('Błąd połączenia z serwerem'));
-    };
-    return <>
-        <h2>Dodawanie nowego języka</h2>
+  return (
+    <>
+      <h2>Add New Language</h2>
+      {createSuccess ? (
+        <div>
+          <p>Language created successfully!</p>
+          <Button type="primary" onClick={handleReset}>
+            Add Another Language
+          </Button>
+        </div>
+      ) : (
         <Form
-            form={form}
-            {...formItemLayout}
-            name="add_pilto"
-            onFinish={onFinish}
-            style={{ maxWidth: 1200 }}
-            scrollToFirstError
+          form={form}
+          name="add_pilot"
+          onFinish={onFinish}
+          style={{ maxWidth: 1200 }}
+          scrollToFirstError
         >
-            <Form.Item
-                name="kod"
-                label="Kod"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Pole kod nie może być puste!',
-                    },
-                    {
-                        max: 5,
-                        message: 'Możesz wpisać maksymalnie 5 znaków'
-                    }
-                ]}
-            >
-                <Input />
-            </Form.Item>
-            <Form.Item
-                name="nazwa"
-                label="Nazwa"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Pole nazwisko nie może być puste!',
-                    },
-                ]}
-            >
-                <Input />
-            </Form.Item>
+          <Form.Item
+            name="code"
+            label="Code"
+            rules={[
+              {
+                required: true,
+                message: 'Code is required!',
+              },
+              {
+                max: 5,
+                message: 'Maximum 5 characters allowed'
+              }
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="name"
+            label="Name"
+            rules={[
+              {
+                required: true,
+                message: 'Name is required!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-
-
-
-            <Form.Item {...tailFormItemLayout}>
-                <Button type="primary" htmlType="submit">
-                    Dodaj język
-                </Button>
-            </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Add Language
+            </Button>
+          </Form.Item>
         </Form>
+      )}
     </>
-}
-export default AddLang
+  );
+};
+
+export default AddLang;

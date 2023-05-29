@@ -163,6 +163,7 @@ const UpdateEtap = () => {
 
 
     const onChange = (data: any) => {
+        console.log(data)
         let sendData = {
             id_list: [],
             from: '',
@@ -198,7 +199,10 @@ const UpdateEtap = () => {
                     message.error("Wystąpił błąd podczas pobierania podróży, spróbuj ponownie")
                 }
 
+            }).then(() => {
+
             })
+            .catch((error) => message.error('Błąd połączenia z serwerem'));
     }
 
 
@@ -268,7 +272,7 @@ const UpdateEtap = () => {
             </Form.Item>
             <Form.Item
                 name="punkt_konczowy"
-                label="Punkt koncowy"
+                label="Punkt konczowy"
                 rules={[
                     {
                         required: true,

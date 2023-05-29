@@ -18,7 +18,7 @@ const removeTransportNew = (id: any) => {
                 message.success("Transport został usunięty")
                 window.open('/transport', '_self')
             } else {
-                message.error("Wystąpił błąd podczas usuwania transportu, jest on przypisany do etapu")
+                message.error("Wystąpił błąd podczas usuwania transportu, odśwież strone i spróbuj ponownie")
             }
 
         })

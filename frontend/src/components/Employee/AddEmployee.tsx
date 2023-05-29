@@ -106,6 +106,10 @@ const AddEmployee = () => {
                     message.error("Wystąpił błąd podczas dodawania przewodnika, odśwież strone i spróbuj ponownie")
                 }
 
+            }).then(() => {
+                if (message.error.length == 0) {
+                    // window.open('/pracownicy')
+                }
             })
             .catch((error) => message.error('Błąd połączenia z serwerem'));
     };

@@ -9,7 +9,7 @@ const getClientsData = (setData: any) => {
         },
         
     };
-    fetch(config.SERVER_URL + "/api/get/all_clients", requestOptions)
+    fetch(config.SERVER_URL + "/api/getCustomers", requestOptions)
         .then((response) => response.json())
         .then((response) => {
             setData(response.result);

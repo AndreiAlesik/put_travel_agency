@@ -41,7 +41,7 @@ const pilot_columns = [
         render: (text: any, record: any) => <>{record.numer_telefonu}</>,
     },
     {
-        title: 'Adres',
+        title: 'Addres',
         render: (text: any, record: any) => <a href={"https://www.google.com/maps/search/?api=1&query=" + record.adres.replace(' ', '+')}>{record.adres}</a>,
         key: 'addres',
     },
@@ -98,7 +98,7 @@ const etaps_columns = [
         render: (text: any, record: any) => <>{record.punkt_poczatkowy}</>,
     },
     {
-        title: 'Punkt koncowy',
+        title: 'Punkt konczowy',
         key: 'punkt_konczowy',
         render: (text: any, record: any) => <>{record.punkt_konczowy}</>,
     },
@@ -208,7 +208,7 @@ const UpdateJourney = () => {
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }: { setSelectedKeys: any, selectedKeys: any, confirm: any, clearFilters: any, close: any }) => (
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
-                    placeholder={`Szukaj`}
+                    placeholder={`Search PDB ID`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(confirm)}
@@ -272,7 +272,7 @@ const UpdateJourney = () => {
             sorter: (a: any, b: any) => a.numer_telefonu.localeCompare(b.numer_telefonu),
         },
         {
-            title: 'Adres',
+            title: 'Addres',
             render: (text: any, record: any) => <a href={"https://www.google.com/maps/search/?api=1&query=" + record.adres.replace(' ', '+')}>{record.adres}</a>,
             key: 'adres',
             sorter: (a: any, b: any) => a.adres.localeCompare(b.adres),
@@ -300,7 +300,7 @@ const UpdateJourney = () => {
     const [selectedAttractionKeys, setSelectedAttractionKeys] = useState<React.Key[]>([]);
     const [attractionData, setAttractionData] = useState();
     const onSelectAttractionChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedAttractionKeys(newSelectedRowKeys);
+        setSelectedAttractionKeys(newSelectedRowKeys.filter(onlyUnique));
     };
     const rowAttractionSelection = {
         selectedRowKeys: selectedAttractionKeys,
@@ -310,7 +310,7 @@ const UpdateJourney = () => {
     const [selectedPilotsKeys, setSelectedPilotsKeys] = useState<React.Key[]>([]);
     const [pilotsData, setPilotsData] = useState();
     const onSelectPilotChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedPilotsKeys(newSelectedRowKeys);
+        setSelectedPilotsKeys(newSelectedRowKeys.filter(onlyUnique));
     }
     const rowPilotSelection = {
         selectedRowKeys: selectedPilotsKeys,
@@ -320,7 +320,7 @@ const UpdateJourney = () => {
     const [selectedClientsKeys, setSelectedClientsKeys] = useState<React.Key[]>([]);
     const [clientsData, setClientsData] = useState();
     const onSelectClientChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedClientsKeys(newSelectedRowKeys);
+        setSelectedClientsKeys(newSelectedRowKeys.filter(onlyUnique));
     }
     const rowClientSelection = {
         selectedRowKeys: selectedClientsKeys,
@@ -330,7 +330,7 @@ const UpdateJourney = () => {
     const [selectedEtapKeys, setSelectedEtapKeys] = useState<React.Key[]>([]);
     const [etapData, setEtapData] = useState();
     const onSelectEtapChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedEtapKeys(newSelectedRowKeys);
+        setSelectedEtapKeys(newSelectedRowKeys.filter(onlyUnique));
     }
     const rowEtapSelection = {
         selectedRowKeys: selectedEtapKeys,
@@ -341,7 +341,7 @@ const UpdateJourney = () => {
     const [selectedWorkerKeys, setSelectedWorkerKeys] = useState<React.Key[]>([]);
     const [workerData, setWorkerData] = useState();
     const onSelectWorkerChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedWorkerKeys(newSelectedRowKeys);
+        setSelectedWorkerKeys(newSelectedRowKeys.filter(onlyUnique));
     }
     const rowWorkerSelection = {
         selectedRowKeys: selectedWorkerKeys,
@@ -353,7 +353,7 @@ const UpdateJourney = () => {
     const [selectedAccommodationKeys, setSelectedAccommodationKeys] = useState<React.Key[]>([]);
     const [accommodationData, setAccommodationData] = useState();
     const onSelectAccommodationChange = (newSelectedRowKeys: React.Key[]) => {
-        setSelectedAccommodationKeys(newSelectedRowKeys);
+        setSelectedAccommodationKeys(newSelectedRowKeys.filter(onlyUnique));
     }
     const rowAccommodationSelection = {
         selectedRowKeys: selectedAccommodationKeys,
