@@ -9,5 +9,5 @@ To install the app, follow these steps:<br>
 
 To use the app, follow these steps:<br>
 
-1. Open the Swagger UI in your web browser: `http://localhost:3000`.<br>
+1. Open in your web browser: `http://localhost:3000`.<br>
 2. At the moment, the use of client panels and languages is available.
