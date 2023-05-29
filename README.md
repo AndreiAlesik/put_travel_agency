@@ -1,4 +1,4 @@
-# put_travel_agency
+# travel_agency
 ## Installation<br>
 
 To install the app, follow these steps:<br>
